@@ -1,0 +1,456 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premanjali Bouquet - Spin & Win</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  color: white;
+  background: radial-gradient(circle, #50145f, #180722 75%, #080410);
+  padding: 20px 12px;
+}
+
+.brand {
+  font: italic bold clamp(27px, 5vw, 46px) Georgia, serif;
+  color: #ffb6d6;
+  text-shadow: 0 0 15px #ff1671;
+}
+
+h1 {
+  margin: 12px 0 5px;
+  font-size: clamp(38px, 8vw, 65px);
+  color: #ffe36a;
+  text-shadow: 0 4px #a13c00, 0 0 25px #ffb52e;
+}
+
+.subtitle {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: 30px;
+  background: linear-gradient(90deg, #ff1671, #ff8b20);
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.offer {
+  max-width: 650px;
+  margin: 18px auto;
+  padding: 14px;
+  border: 2px solid #ffc1dc;
+  border-radius: 14px;
+  background: #ff1671;
+  font-size: clamp(17px, 3vw, 23px);
+  font-weight: 900;
+  box-shadow: 0 0 22px #ff1671;
+}
+
+.offer small {
+  display: block;
+  margin-top: 7px;
+  font-size: 14px;
+}
+
+.game {
+  width: min(90vw, 470px);
+  margin: 25px auto;
+  position: relative;
+  filter: drop-shadow(0 0 20px #ffbf3d);
+}
+
+.pointer {
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: 0;
+  height: 0;
+  border-left: 23px solid transparent;
+  border-right: 23px solid transparent;
+  border-top: 48px solid #ff1671;
+  filter: drop-shadow(0 0 8px white);
+}
+
+.frame {
+  padding: 12px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #fff8bc, #ce7a0b, #fff2a4,
+    #d27d13, #fff8bc
+  );
+  box-shadow: 0 0 0 5px #ffda70, 0 0 28px #ffb52e;
+}
+
+.wheel-wrap {
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+#wheel {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transform: rotate(0deg);
+}
+
+.center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 24%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: clamp(15px, 3vw, 22px);
+  font-weight: 1000;
+  border: 5px solid #ffe9a2;
+  background: radial-gradient(circle, #ff6b9f, #bd004a);
+  box-shadow: 0 0 0 4px #a35400, 0 0 22px #ff1680;
+  z-index: 3;
+}
+
+.lights {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 4;
+  animation: blink .65s infinite alternate;
+}
+
+@keyframes blink {
+  from { filter: brightness(.65); }
+  to { filter: brightness(1.6); }
+}
+
+button {
+  border: none;
+  border-radius: 40px;
+  padding: 16px 35px;
+  margin: 12px;
+  color: #4b1730;
+  background: linear-gradient(#fff6a8, #ffbd25, #ff8500);
+  box-shadow: 0 5px 0 #9c4500, 0 0 22px #ffbd25;
+  font-size: 22px;
+  font-weight: 1000;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .65;
+  cursor: not-allowed;
+}
+
+.result {
+  display: none;
+  max-width: 500px;
+  margin: 18px auto;
+  padding: 18px;
+  border: 2px solid #ffe16b;
+  border-radius: 15px;
+  background: #351046;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1.6;
+}
+
+.prizes {
+  max-width: 900px;
+  margin: 25px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+  gap: 10px;
+}
+
+.prize {
+  padding: 15px 8px;
+  border: 2px solid white;
+  border-radius: 14px;
+  color: #29102e;
+  background: linear-gradient(145deg, #fff9e9, #ffd5e6);
+}
+
+.prize .emoji { font-size: 30px; }
+.prize strong { display: block; margin: 5px; font-size: 18px; }
+.prize span { font-size: 13px; }
+
+.instructions {
+  max-width: 720px;
+  margin: 20px auto;
+  padding: 16px;
+  line-height: 1.8;
+  border: 1px solid #ffffff50;
+  border-radius: 15px;
+  background: #ffffff12;
+}
+
+footer {
+  margin-top: 25px;
+  color: #f7dcec;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+footer strong { color: #ff9fc9; }
+
+@media (max-width: 500px) {
+  .game { width: 92vw; }
+  button { font-size: 19px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">🌹 Premanjali Bouquet 🌹</div>
+  <p>SMALL GIFT • BIG HAPPINESS</p>
+  <h1>SPIN &amp; WIN</h1>
+  <div class="subtitle">✨ LUCKY WHEEL • शानदार इनाम ✨</div>
+</header>
+
+<div class="offer">
+  BUY A BOUQUET WORTH ₹150 OR MORE!
+  <br>
+  ₹150 या उससे ज़्यादा का Bouquet खरीदें!
+  <small>Get a chance to spin and win a prize.</small>
+</div>
+
+<div class="game">
+  <div class="pointer"></div>
+  <div class="frame">
+    <div class="wheel-wrap">
+      <canvas id="wheel" width="900" height="900"></canvas>
+      <div class="lights" id="lights"></div>
+      <div class="center">SPIN</div>
+    </div>
+  </div>
+</div>
+
+<button id="spinButton">🎯 SPIN NOW!</button>
+
+<div id="result" class="result" aria-live="polite"></div>
+
+<h2>🎁 PRIZES YOU CAN WIN / इनाम</h2>
+
+<div class="prizes">
+  <div class="prize">
+    <div class="emoji">💐</div>
+    <strong>₹99 Bouquet</strong>
+    <span>Flower Bouquet</span>
+  </div>
+
+  <div class="prize">
+    <div class="emoji">🍬</div>
+    <strong>₹10 Pulse</strong>
+    <span>Pulse Chocolate</span>
+  </div>
+
+  <div class="prize">
+    <div class="emoji">🍫</div>
+    <strong>₹7 Melody</strong>
+    <span>Melody Chocolate</span>
+  </div>
+
+  <div class="prize">
+    <div class="emoji">🍫</div>
+    <strong>₹6 Pista</strong>
+    <span>Pista Chocolate</span>
+  </div>
+
+  <div class="prize">
+    <div class="emoji">🍟</div>
+    <strong>₹5 Chips</strong>
+    <span>Lays, Mad Angles, Tedhe Medhe, Kurkure</span>
+  </div>
+</div>
+
+<div class="instructions">
+  <strong>HOW TO PLAY / कैसे खेलें</strong><br>
+  1. Buy a bouquet worth ₹150 or more.<br>
+  ₹150 या उससे ज़्यादा का Bouquet खरीदें।<br>
+  2. Tap the SPIN NOW button.<br>
+  SPIN NOW बटन दबाएँ।<br>
+  3. Show your result to the shopkeeper to claim the prize.<br>
+  अपना इनाम लेने के लिए परिणाम दुकान पर दिखाएँ।
+</div>
+
+<footer>
+  <strong>Premanjali Bouquet</strong><br>
+  Ward No. 04, Medhipara, Udalguri, Assam – 784509<br>
+  Instagram: <strong>@premanjali.bouquet</strong><br>
+  🌹 Flowers make every moment special 🌹
+</footer>
+
+<script>
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
+const spinButton = document.getElementById("spinButton");
+const result = document.getElementById("result");
+const lights = document.getElementById("lights");
+
+const prizes = [
+  { name: "₹99 BOUQUET", detail: "Flower Bouquet", emoji: "💐", color: "#ff4d98" },
+  { name: "₹10 PULSE", detail: "Pulse Chocolate", emoji: "🍬", color: "#ffd326" },
+  { name: "₹7 MELODY", detail: "Melody Chocolate", emoji: "🍫", color: "#76df35" },
+  { name: "₹6 PISTA", detail: "Pista Chocolate", emoji: "🍫", color: "#20c9ee" },
+  { name: "₹5 CHIPS", detail: "Lays / Mad Angles / Tedhe Medhe / Kurkure", emoji: "🍟", color: "#9b45e8" }
+];
+
+const count = prizes.length;
+const arc = (Math.PI * 2) / count;
+let rotation = 0;
+let spinning = false;
+let alreadySpun = false;
+
+function drawWheel() {
+  const c = 450;
+  const r = 432;
+
+  ctx.clearRect(0, 0, 900, 900);
+
+  prizes.forEach((prize, i) => {
+    const start = -Math.PI / 2 - arc / 2 + i * arc;
+    const end = start + arc;
+
+    ctx.beginPath();
+    ctx.moveTo(c, c);
+    ctx.arc(c, c, r, start, end);
+    ctx.closePath();
+    ctx.fillStyle = prize.color;
+    ctx.fill();
+    ctx.lineWidth = 8;
+    ctx.strokeStyle = "#fff1b1";
+    ctx.stroke();
+
+    const mid = start + arc / 2;
+    const x = c + Math.cos(mid) * 245;
+    const y = c + Math.sin(mid) * 245;
+
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(mid + Math.PI / 2);
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.shadowColor = "rgba(0,0,0,.65)";
+    ctx.shadowBlur = 5;
+
+    ctx.font = "bold 42px Arial";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(prize.emoji, 0, -45);
+
+    ctx.font = "900 31px Arial";
+    ctx.fillText(prize.name, 0, 5);
+
+    ctx.font = "bold 18px Arial";
+    const detail = prize.detail;
+    if (detail.length > 23) {
+      ctx.fillText("Lays • Mad Angles", 0, 38);
+      ctx.fillText("Tedhe Medhe • Kurkure", 0, 62);
+    } else {
+      ctx.fillText(detail, 0, 42);
+    }
+
+    ctx.restore();
+  });
+
+  ctx.beginPath();
+  ctx.arc(c, c, 438, 0, Math.PI * 2);
+  ctx.strokeStyle = "#ffd86c";
+  ctx.lineWidth = 17;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(c, c, 417, 0, Math.PI * 2);
+  ctx.strokeStyle = "#fff8d5";
+  ctx.lineWidth = 4;
+  ctx.stroke();
+}
+
+drawWheel();
+
+// Animated marquee lights around the wheel.
+for (let i = 0; i < 28; i++) {
+  const angle = i * Math.PI * 2 / 28;
+  const bulb = document.createElement("span");
+  bulb.style.position = "absolute";
+  bulb.style.width = "10px";
+  bulb.style.height = "10px";
+  bulb.style.borderRadius = "50%";
+  bulb.style.left = (50 + 47 * Math.cos(angle)) + "%";
+  bulb.style.top = (50 + 47 * Math.sin(angle)) + "%";
+  bulb.style.background = "#fffbd0";
+  bulb.style.boxShadow = "0 0 6px 3px #ffdf6a, 0 0 12px 5px #ff9e1b";
+  bulb.style.animation = "blink .65s infinite alternate";
+  bulb.style.animationDelay = (-i * .07) + "s";
+  lights.appendChild(bulb);
+}
+
+function easeOut(t) {
+  return 1 - Math.pow(1 - t, 4);
+}
+
+spinButton.addEventListener("click", () => {
+  if (spinning || alreadySpun) return;
+
+  spinning = true;
+  spinButton.disabled = true;
+  result.style.display = "none";
+
+  // Each of the five prizes currently has an equal chance.
+  const winner = Math.floor(Math.random() * count);
+  const sectorDegrees = 360 / count;
+
+  // Wheel sector 0 is centred at the pointer when rotation is 0.
+  const desired = (360 - winner * sectorDegrees) % 360;
+  const current = ((rotation % 360) + 360) % 360;
+  const offset = (desired - current + 360) % 360;
+
+  const start = rotation;
+  const finish = rotation + 360 * 7 + offset;
+  const duration = 5200;
+  const startTime = performance.now();
+
+  function animate(now) {
+    const t = Math.min(1, (now - startTime) / duration);
+    rotation = start + (finish - start) * easeOut(t);
+    canvas.style.transform = `rotate(${rotation}deg)`;
+
+    if (t < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      spinning = false;
+      alreadySpun = true;
+
+      result.innerHTML =
+        `🎉 YOU WON! / आपका इनाम 🎉<br>
+         <span style="color:#ffe16b;font-size:27px">${prizes[winner].name}</span><br>
+         ${prizes[winner].detail}<br>
+         <small>Show this result to the shopkeeper.</small>`;
+
+      result.style.display = "block";
+      spinButton.textContent = "SPIN COMPLETED ✓";
+    }
+  }
+
+  requestAnimationFrame(animate);
+});
+</script>
+
+</body>
+</html>
